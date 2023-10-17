@@ -184,14 +184,32 @@ celsius.addEventListener("click", showCelsius);
 
 //Search for temperature
 
-function showCity(event) {
-  event.preventDefault();
+// previous work before touching up
+// function showCity(event) {
+//   event.preventDefault();
+//   let apiKey = "2f4a61b0876133218968273ba29696cf";
+//   let units = "metric";
+//   let city = document.querySelector("#city-search").value;
+//   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+
+//   axios.get(apiUrl).then(showTemp);
+// }
+
+//show Dublin as the default city on load
+function search(city) {
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let units = "metric";
-  let city = document.querySelector("#city-search").value;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-
+  let defaultCity = document.querySelector("#city");
+  defaultCity.innerHTML = "Dublin";
   axios.get(apiUrl).then(showTemp);
+}
+
+function showCity(event) {
+  event.preventDefault();
+  let city = document.querySelector("#city-search").value;
+
+  search(city);
 }
 
 let searchBar = document.querySelector("#search");
@@ -204,9 +222,9 @@ function showTemp(response) {
   let description = document.querySelector("#description");
   description.innerHTML = response.data.weather[0].description;
   let humidity = document.querySelector("#humidity");
-  humidity.innerHTML = `${Math.round(response.data.main.temp)}% Humidity`;
+  humidity.innerHTML = `${Math.round(response.data.main.temp)}% humidity`;
   let wind = document.querySelector("#wind");
-  wind.innerHTML = `Wind speed:${Math.round(response.data.wind.speed)}km/h`;
+  wind.innerHTML = `Windspeed:${Math.round(response.data.wind.speed)}km/h`;
 
   let iconElement = document.querySelector("#emoji");
   let icon = response.data.weather[0].icon;
@@ -271,4 +289,5 @@ function showLocation() {
 let button = document.querySelector("button");
 button.addEventListener("click", showLocation);
 
+search("Dublin");
 //the celsius and F buttons are still f-ed
