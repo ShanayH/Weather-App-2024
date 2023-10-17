@@ -1,0 +1,48 @@
+body {
+  margin: 30px;
+  padding: 40px;
+}
+
+.date {
+  text-align: right;
+}
+.container {
+  background: #f9fae6;
+
+  margin: 30px;
+  padding: 50px;
+  border: 5px solid #ffcab0;
+  border-radius: 70px !important;
+  width: 800px;
+}
+
+.search-bar {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ffcab0;
+}
+.search-button {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ffcab0;
+  background-color: #ffcab0;
+  transition: 200ms ease-in-out;
+}
+.search-button:hover {
+  background-color: #f9fae6;
+}
+
+.temperature {
+  font-size: 50px;
+  padding-right:0;
+}
+
+.unit {
+  font-size: 10px;
+  position: relative;
+  margin: 1px 0px;
+}
+
+.description {
+  font-style: italic;
+}
