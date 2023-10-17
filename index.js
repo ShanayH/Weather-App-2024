@@ -232,7 +232,7 @@ function getLocation(position) {
 function findCity(response) {
   let city = response.data[0].name;
   let lat = response.data[0].lat;
-  let lon = response.data[0].lon;s
+  let lon = response.data[0].lon;
   let units = "metric";
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let cityName = document.querySelector("#city");
