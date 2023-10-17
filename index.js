@@ -225,18 +225,20 @@ function getLocation(position) {
   let lat = position.coords.latitude;
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
-
+  console.log(cityNameApiUrl);
   axios.get(cityNameApiUrl).then(findCity);
 }
 
 function findCity(response) {
   let city = response.data[0].name;
+  let lat = response.data[0].lat;
+  let lon = response.data[0].lon;s
   let units = "metric";
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let cityName = document.querySelector("#city");
   cityName.innerHTML = city;
 
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
   axios.get(apiUrl).then(showTemp);
 }
