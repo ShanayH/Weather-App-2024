@@ -204,9 +204,9 @@ function showTemp(response) {
   let description = document.querySelector("#description");
   description.innerHTML = response.data.weather[0].description;
   let humidity = document.querySelector("#humidity");
-  humidity.innerHTML = Math.round(response.data.main.temp) + "%";
+  humidity.innerHTML = `${Math.round(response.data.main.temp)}% Humidity`;
   let wind = document.querySelector("#wind");
-  wind.innerHTML = Math.round(response.data.wind.speed) + "km/h";
+  wind.innerHTML = `Wind speed:${Math.round(response.data.wind.speed)}km/h`;
 
   let iconElement = document.querySelector("#emoji");
   let icon = response.data.weather[0].icon;
