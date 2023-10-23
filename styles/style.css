@@ -34,7 +34,7 @@ body {
 
 .temperature {
   font-size: 50px;
-  padding-right:0;
+  padding-right: 0;
 }
 
 .unit {
@@ -45,4 +45,8 @@ body {
 
 .description {
   font-style: italic;
+}
+
+.developer {
+  padding-left: 60px;
 }
