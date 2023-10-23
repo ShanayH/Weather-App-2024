@@ -116,10 +116,12 @@ citySearch.addEventListener("submit", onSubmit);
 function showFahrenheit(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
-  let temperature = temperatureElement.innerHTML;
-  let fahrenheitTemp = Math.round((temperature * 9) / 5 + 32);
-
+  let fahrenheitTemp = Math.round((celsiusTemperature * 9) / 5 + 32);
+  console.log(celsiusTemperature);
+  console.log(fahrenheitTemp);
   temperatureElement.innerHTML = `${fahrenheitTemp}`;
+
+  //  let temperature = temperatureElement.innerHTML;
 }
 
 //Temp Converion to C
@@ -127,7 +129,7 @@ function showFahrenheit(event) {
 function showCelsius(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
-  let temperature = temperatureElement.innerHTML;
+
   let celsiusTemp = "30";
   temperatureElement.innerHTML = `${celsiusTemp}`;
 }
@@ -202,14 +204,15 @@ function search(city) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   let defaultCity = document.querySelector("#city");
   defaultCity.innerHTML = "Dublin";
+  // showing this instead of changing it to the new city for some reason
   axios.get(apiUrl).then(showTemp);
 }
 
 function showCity(event) {
   event.preventDefault();
   let city = document.querySelector("#city-search").value;
-
   search(city);
+  // working
 }
 
 let searchBar = document.querySelector("#search");
@@ -217,8 +220,10 @@ let searchBar = document.querySelector("#search");
 searchBar.addEventListener("submit", showCity);
 
 function showTemp(response) {
+  celsiusTemperature = Math.round(response.data.main.temp);
+
   let temperature = document.querySelector("#temperature");
-  temperature.innerHTML = Math.round(response.data.main.temp);
+  temperature.innerHTML = celsiusTemperature;
   let description = document.querySelector("#description");
   description.innerHTML = response.data.weather[0].description;
   let humidity = document.querySelector("#humidity");
@@ -232,8 +237,6 @@ function showTemp(response) {
     "src",
     `http://openweathermap.org/img/wn/${icon}@2x.png`
   );
-
-  console.log(icon);
 }
 
 //show current location
@@ -243,11 +246,12 @@ function getLocation(position) {
   let lat = position.coords.latitude;
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
-  console.log(cityNameApiUrl);
+
   axios.get(cityNameApiUrl).then(findCity);
 }
 
 function findCity(response) {
+  console.log(response);
   let city = response.data[0].name;
   let lat = response.data[0].lat;
   let lon = response.data[0].lon;
@@ -286,8 +290,11 @@ function showLocation() {
   navigator.geolocation.getCurrentPosition(getLocation);
 }
 
+let celsiusTemperature = null;
+
 let button = document.querySelector("button");
 button.addEventListener("click", showLocation);
 
 search("Dublin");
-//the celsius and F buttons are still f-ed
+
+//current location button is working (showing correct city name)
