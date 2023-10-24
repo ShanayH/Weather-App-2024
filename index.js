@@ -116,26 +116,26 @@ citySearch.addEventListener("submit", onSubmit);
 function showFahrenheit(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
-  let fahrenheitTemp = Math.round((celsiusTemperature * 9) / 5 + 32);
-  console.log(celsiusTemperature);
-  console.log(fahrenheitTemp);
-  temperatureElement.innerHTML = `${fahrenheitTemp}`;
 
-  //  let temperature = temperatureElement.innerHTML;
+  let fahrenheitTemp = Math.round((celsiusTemperature * 9) / 5 + 32);
+  temperatureElement.innerHTML = fahrenheitTemp;
+  fahrenheit.classList.remove("link");
+  fahrenheit.classList.add("no-link");
+  celsius.classList.add("link");
 }
+
+let fahrenheit = document.querySelector("#fahrenheit");
+fahrenheit.addEventListener("click", showFahrenheit);
 
 //Temp Converion to C
 
 function showCelsius(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
-
-  let celsiusTemp = "30";
-  temperatureElement.innerHTML = `${celsiusTemp}`;
+  temperatureElement.innerHTML = celsiusTemperature;
+  celsius.classList.remove("link");
+  fahrenheit.classList.add("link");
 }
-
-let fahrenheit = document.querySelector("#fahrenheit");
-fahrenheit.addEventListener("click", showFahrenheit);
 
 let celsius = document.querySelector("#celsius");
 celsius.addEventListener("click", showCelsius);
@@ -229,7 +229,7 @@ function showTemp(response) {
   let humidity = document.querySelector("#humidity");
   humidity.innerHTML = `${Math.round(response.data.main.temp)}% humidity`;
   let wind = document.querySelector("#wind");
-  wind.innerHTML = `Windspeed:${Math.round(response.data.wind.speed)}km/h`;
+  wind.innerHTML = `Wind: ${Math.round(response.data.wind.speed)}km/h`;
 
   let iconElement = document.querySelector("#emoji");
   let icon = response.data.weather[0].icon;
@@ -298,3 +298,5 @@ button.addEventListener("click", showLocation);
 search("Dublin");
 
 //current location button is working (showing correct city name)
+
+//why the fuck is changing the class on click of the F making the class change all the time
