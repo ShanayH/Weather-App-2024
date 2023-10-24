@@ -202,8 +202,8 @@ function search(city) {
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let units = "metric";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-  let defaultCity = document.querySelector("#city");
-  defaultCity.innerHTML = "Dublin";
+  //let defaultCity = document.querySelector("#city");
+  //defaultCity.innerHTML = "Dublin";
   // showing this instead of changing it to the new city for some reason
   axios.get(apiUrl).then(showTemp);
 }
@@ -224,6 +224,9 @@ function showTemp(response) {
 
   let temperature = document.querySelector("#temperature");
   temperature.innerHTML = celsiusTemperature;
+  //defaultCity is to show the city name of Dublin on load of page
+  let defaultCity = document.querySelector("#city");
+  defaultCity.innerHTML = response.data.name;
   let description = document.querySelector("#description");
   description.innerHTML = response.data.weather[0].description;
   let humidity = document.querySelector("#humidity");
@@ -248,6 +251,7 @@ function getLocation(position) {
   let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
 
   axios.get(cityNameApiUrl).then(findCity);
+  //city name is working on current location search
 }
 
 function findCity(response) {
@@ -263,6 +267,7 @@ function findCity(response) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
   axios.get(apiUrl).then(showTemp);
+  //city name is working on current location search
 }
 
 // this function was already created earlier in the code and does not need to be repeated since it
@@ -298,5 +303,3 @@ button.addEventListener("click", showLocation);
 search("Dublin");
 
 //current location button is working (showing correct city name)
-
-//why the fuck is changing the class on click of the F making the class change all the time
