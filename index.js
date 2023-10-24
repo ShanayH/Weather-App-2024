@@ -202,9 +202,6 @@ function search(city) {
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let units = "metric";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-  //let defaultCity = document.querySelector("#city");
-  //defaultCity.innerHTML = "Dublin";
-  // showing this instead of changing it to the new city for some reason
   axios.get(apiUrl).then(showTemp);
 }
 
@@ -218,7 +215,43 @@ function showCity(event) {
 let searchBar = document.querySelector("#search");
 
 searchBar.addEventListener("submit", showCity);
+searchBar.addEventListener("submit", showForecast);
 
+// this function was already created earlier in the code and does not need to be repeated since it
+// using the same API and all the same responses.
+// function showTemp(response) {
+//   let tempResult = Math.round(response.data.main.temp);
+//   let cityTemp = document.querySelector("#temperature");
+//   etc, etc...
+// }
+
+//show current location
+function showLocation() {
+  navigator.geolocation.getCurrentPosition(getLocation);
+}
+
+function getLocation(position) {
+  let lon = position.coords.longitude;
+  let lat = position.coords.latitude;
+  let apiKey = "2f4a61b0876133218968273ba29696cf";
+  let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+
+  axios.get(cityNameApiUrl).then(findCity);
+}
+function findCity(response) {
+  let city = response.data[0].name;
+  let lat = response.data[0].lat;
+  let lon = response.data[0].lon;
+  let units = "metric";
+  let apiKey = "2f4a61b0876133218968273ba29696cf";
+  let cityName = document.querySelector("#city");
+  cityName.innerHTML = city;
+
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+
+  axios.get(apiUrl).then(showTemp);
+  console.log(apiUrl);
+}
 function showTemp(response) {
   celsiusTemperature = Math.round(response.data.main.temp);
 
@@ -241,65 +274,25 @@ function showTemp(response) {
     `http://openweathermap.org/img/wn/${icon}@2x.png`
   );
 }
-
-//show current location
-
-function getLocation(position) {
-  let lon = position.coords.longitude;
-  let lat = position.coords.latitude;
-  let apiKey = "2f4a61b0876133218968273ba29696cf";
-  let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
-
-  axios.get(cityNameApiUrl).then(findCity);
-  //city name is working on current location search
-}
-
-function findCity(response) {
-  console.log(response);
-  let city = response.data[0].name;
-  let lat = response.data[0].lat;
-  let lon = response.data[0].lon;
-  let units = "metric";
-  let apiKey = "2f4a61b0876133218968273ba29696cf";
-  let cityName = document.querySelector("#city");
-  cityName.innerHTML = city;
-
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
-
-  axios.get(apiUrl).then(showTemp);
-  //city name is working on current location search
-}
-
-// this function was already created earlier in the code and does not need to be repeated since it
-// using the same API and all the same responses.
-// function showTemp(response) {
-//   let tempResult = Math.round(response.data.main.temp);
-//   let cityTemp = document.querySelector("#temperature");
-//   cityTemp.innerHTML = `${tempResult}`;
-//   let description = document.querySelector("#description");
-//   description.innerHTML = response.data.weather[0].description;
-//   let humidity = document.querySelector("#humidity");
-//   humidity.innerHTML = `Humidity: ${Math.round(response.data.main.temp)}%`;
-//   let wind = document.querySelector("#wind");
-//   wind.innerHTML = `Wind speed: ${Math.round(response.data.wind.speed)}km/h`;
-
-//   let iconElement = document.querySelector("#emoji");
-//   let icon = response.data.weather[0].icon;
-//   iconElement.setAttribute(
-//     "src",
-//     `http://openweathermap.org/img/wn/${icon}@2x.png`
-//   );
-// }
-
-function showLocation() {
-  navigator.geolocation.getCurrentPosition(getLocation);
-}
-
 let celsiusTemperature = null;
 
 let button = document.querySelector("button");
 button.addEventListener("click", showLocation);
 
-search("Dublin");
+//search("Dublin");
 
-//current location button is working (showing correct city name)
+//Forecast
+
+// function showForecast(event) {
+//   event.preventDefault();
+//   let apiKey = "2f4a61b0876133218968273ba29696cf";
+//   let units = "metric";
+//   let forecastUrl = `api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&appid=${apiKey}&units=${units}`;
+//   axios.get(forecastUrl).then(forecast);
+// }
+
+// function forecast(response) {
+//     let forecastDay = document.querySelector("#forecast-day");
+// forecastDay.innerHTML = "hello";
+
+// }
