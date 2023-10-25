@@ -209,13 +209,11 @@ function showCity(event) {
   event.preventDefault();
   let city = document.querySelector("#city-search").value;
   search(city);
-  // working
 }
 
 let searchBar = document.querySelector("#search");
 
 searchBar.addEventListener("submit", showCity);
-searchBar.addEventListener("submit", showForecast);
 
 // this function was already created earlier in the code and does not need to be repeated since it
 // using the same API and all the same responses.
@@ -250,7 +248,6 @@ function findCity(response) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
   axios.get(apiUrl).then(showTemp);
-  console.log(apiUrl);
 }
 function showTemp(response) {
   celsiusTemperature = Math.round(response.data.main.temp);
@@ -273,26 +270,57 @@ function showTemp(response) {
     "src",
     `http://openweathermap.org/img/wn/${icon}@2x.png`
   );
+
+  getForecast(response.data.coord);
+  // console.log(response);
+}
+
+function getForecast(coordinates) {
+  //console.log(coordinates);
+  let apiKey = "2f4a61b0876133218968273ba29696cf";
+  let lat = coordinates.lat;
+  let lon = coordinates.lon;
+  let units = "metric";
+  let apiUrl = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+
+  console.log(apiUrl);
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response);
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let days = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+    <div class="col-2">
+      <div id="forecast-day">${day}</div>
+      <img 
+      src="http://openweathermap.org/img/wn/${
+        response.data.daily[0].weather[0].icon
+      }.png"
+      alt=""
+      width="42"
+      />
+      <div class="row">
+        <div class="col-2">${Math.round(
+          response.data.daily[0].temp.min
+        )}</div>
+        <div class="col-2">${Math.round(
+          response.data.daily[0].temp.max
+        )}</div>
+      </div>
+    </div>
+   `;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
 }
 let celsiusTemperature = null;
 
 let button = document.querySelector("button");
 button.addEventListener("click", showLocation);
-
-//search("Dublin");
-
-//Forecast
-
-// function showForecast(event) {
-//   event.preventDefault();
-//   let apiKey = "2f4a61b0876133218968273ba29696cf";
-//   let units = "metric";
-//   let forecastUrl = `api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&appid=${apiKey}&units=${units}`;
-//   axios.get(forecastUrl).then(forecast);
-// }
-
-// function forecast(response) {
-//     let forecastDay = document.querySelector("#forecast-day");
-// forecastDay.innerHTML = "hello";
-
-// }
+search("Dublin");
