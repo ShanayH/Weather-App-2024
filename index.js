@@ -203,6 +203,8 @@ function search(city) {
   let units = "metric";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(showTemp);
+  fahrenheit.classList.remove("no-link"); // Revert back to the original class
+  fahrenheit.classList.add("link");
 }
 
 function showCity(event) {
@@ -272,24 +274,21 @@ function showTemp(response) {
   );
 
   getForecast(response.data.coord);
-  // console.log(response);
 }
 
 function getForecast(coordinates) {
-  //console.log(coordinates);
   let apiKey = "2f4a61b0876133218968273ba29696cf";
   let lat = coordinates.lat;
   let lon = coordinates.lon;
   let units = "metric";
   let apiUrl = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
-  console.log(apiUrl);
   axios.get(apiUrl).then(displayForecast);
 }
 
 function formatDay(forecastDate) {
   let date = new Date(forecastDate * 1000);
-  console.log(date);
+
   let day = date.getDay();
   let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
