@@ -327,4 +327,4 @@ let celsiusTemperature = null;
 
 let button = document.querySelector("button");
 button.addEventListener("click", showLocation);
-search("Dublin");
+search("Rome");
