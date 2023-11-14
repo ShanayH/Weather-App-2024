@@ -234,7 +234,7 @@ function getLocation(position) {
   let lon = position.coords.longitude;
   let lat = position.coords.latitude;
   let apiKey = "2f4a61b0876133218968273ba29696cf";
-  let cityNameApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+  let cityNameApiUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
 
   axios.get(cityNameApiUrl).then(findCity);
 }
@@ -270,7 +270,7 @@ function showTemp(response) {
   let icon = response.data.weather[0].icon;
   iconElement.setAttribute(
     "src",
-    `http://openweathermap.org/img/wn/${icon}@2x.png`
+    `https://openweathermap.org/img/wn/${icon}@2x.png`
   );
 
   getForecast(response.data.coord);
@@ -281,7 +281,7 @@ function getForecast(coordinates) {
   let lat = coordinates.lat;
   let lon = coordinates.lon;
   let units = "metric";
-  let apiUrl = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
   axios.get(apiUrl).then(displayForecast);
 }
@@ -308,7 +308,7 @@ function displayForecast(response) {
     <div class="col-2">
       <div id="forecast-day">${formatDay(forecastDay.dt)}</div>
       <img 
-      src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}.png"
+      src="https://openweathermap.org/img/wn/${forecastDay.weather[0].icon}.png"
       alt=""
       width="42"
       />
